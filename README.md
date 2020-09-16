@@ -19,3 +19,6 @@ Tout vos virements permanents seront prélevées de votre solde automatiquement 
 
 ![img3](https://i.ibb.co/JKqxV0V/dss3.jpg)
 
+## Licence :
+
+Toute utilisation commercial est interdite.
