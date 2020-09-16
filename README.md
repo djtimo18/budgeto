@@ -21,4 +21,4 @@ Tout vos virements permanents seront prélevées de votre solde automatiquement 
 
 ## Licence :
 
-Toute utilisation commercial est interdite.
+MIT
