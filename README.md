@@ -23,4 +23,4 @@ Tout vos virements permanents seront prélevées de votre solde automatiquement 
 
 MIT
 
-Design based on : Code Admin
+Design based on : Cool Admin
