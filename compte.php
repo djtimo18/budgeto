@@ -1,5 +1,5 @@
 <?php
-
+$title = "Compte";
 require ('header.php');
 ?>
 
@@ -33,19 +33,69 @@ require ('header.php');
                             </div>
                             <div class="col-lg-6">
                             <div class="au-card recent-report">
+                            <?php 
+                            
+                            $id = $data['id'];
+                            if(isset($_FILES['avatar']) AND !empty($_FILES['avatar']['name']))
+
+                            {
+                                $tailleMax = 2097152;
+                                $extensionsValides = array('jpg', 'jpeg', 'png');
+                                if($_FILES['avatar']['size'] <= $tailleMax)
+                                {
+                                    $extensionUpload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
+                                    if(in_array($extensionUpload, $extensionsValides))
+                                    {
+                                        $chemin = "membres/avatars/".$_SESSION['username'].".".$extensionUpload;
+                                        $resultat = move_uploaded_file($_FILES['avatar']['tmp_name'], $chemin);
+                                        if($resultat)
+                                        {
+                                            $updateavatar = $bdd->prepare('UPDATE user SET avatar = :avatar WHERE username = :username');
+                                            $updateavatar->execute(array(
+                                                'avatar' => $_SESSION['username'].".".$extensionUpload,
+                                                'username' => $_SESSION['username']
+                                                ));
+                                                //echo "<meta http-equiv='refresh' content='0.2'>";
+                                        }
+                                        else
+                                        {
+                                            $erreur = "Erreur durant l'importation de votre photo de profil";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $erreur = "Votre photo de profil doit être au format jpg, jpeg, gif ou png";
+                                    }
+                                }
+                                else
+                                {
+                                    $erreur = "Votre photo de profil ne doit pas dépasser 2Mo";
+                                }
+                            }
+                            ?>
                                     <div class="au-card-inner">
                                         <h3 class="title-2">Avatar :</h3>
+                                        <img src="<?php echo "membres/avatars/",$data['avatar'];?>" alt="" />
                                         <div class="col-lg-6" style="    margin-top: 6%;padding: 6px;">
-                                        <form action="upload_avatar.php" method="post" class="form-horizontal">
+                                        <form  enctype="multipart/form-data" method="post" class="form-horizontal">
                                             <div class="row form-group" style="width: 466px;">
                                                 <div class="col col-md-3">
-                                                    <label for="file-input" class=" form-control-label">Avatar :</label>
+                                                    <label for="file-input" class=" form-control-label">Changer :</label>
                                                 </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="file" id="file-input" name="avatar" class="form-control-file">
+                                                <div class="container">
+                                                    <div class="row"> 
+                                                        <div class="col-sm-0 col-md-2 col-lg-1"></div>
+                                                        <div class="col-sm-12 col-md-8 col-lg-10"> 
+                                                            <form method="post" enctype="multipart/form-data">
+                                                               <input type="file" name="avatar"><br />
+                                                               <button type="submit">Envoyer</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
-                                            <button class="au-btn au-btn-load js-load-btn" type="submit">Ajouter</button>
+                                           
                                         </form>  
                                     </div>  
                                     </div>  
